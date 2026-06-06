@@ -42,11 +42,12 @@
   }
 
   .login-box {
-    width: 380px;
+    width: 340px;
     border: 1px solid var(--border);
-    padding: 3rem;
+    padding: 2.5rem;
     background: var(--card);
     text-align: center;
+    margin: 1rem;
   }
 
   .login-logo {
@@ -113,7 +114,7 @@
   .login-btn:hover { background: var(--gold-light); }
   .login-error { color: var(--red); font-size: 0.75rem; margin-top: 0.8rem; display: none; }
 
-  /* ─── SIDEBAR ─── */
+  /* ─── SIDEBAR (solo desktop) ─── */
   .sidebar {
     width: 230px;
     min-height: 100vh;
@@ -238,7 +239,7 @@
   /* ─── STATS ─── */
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 1.2rem;
     margin-bottom: 2.5rem;
   }
@@ -419,6 +420,7 @@
     z-index: 200;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
   }
 
   .modal-overlay.open { display: flex; }
@@ -426,10 +428,12 @@
   .modal {
     background: var(--card);
     border: 1px solid var(--border);
-    padding: 2.5rem;
+    padding: 2rem;
     width: 100%;
     max-width: 440px;
     position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 
   .modal h3 {
@@ -505,15 +509,13 @@
   .filter-bar select option { background: var(--dark); }
 
   /* ─── CHART SIMPLE ─── */
-  .chart-wrap {
-    padding: 1.5rem;
-  }
+  .chart-wrap { padding: 1.5rem; }
 
   .bar-chart {
     display: flex;
     align-items: flex-end;
     gap: 0.8rem;
-    height: 160px;
+    height: 140px;
   }
 
   .bar-item {
@@ -532,7 +534,6 @@
     border-radius: 2px 2px 0 0;
     min-height: 4px;
     transition: height 0.6s;
-    position: relative;
   }
 
   .bar-label {
@@ -551,29 +552,114 @@
   /* ─── TOAST ─── */
   .toast {
     position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: 5rem;
+    right: 1rem;
     background: var(--gold);
     color: var(--dark);
-    padding: 0.9rem 1.6rem;
+    padding: 0.9rem 1.4rem;
     font-size: 0.75rem;
     font-weight: 600;
     z-index: 999;
     transform: translateY(100px);
     opacity: 0;
     transition: all 0.4s;
+    max-width: calc(100vw - 2rem);
   }
 
   .toast.show { transform: translateY(0); opacity: 1; }
   .toast.red { background: var(--red); color: white; }
 
+  /* ─── MOBILE TOP BAR ─── */
+  .mobile-topbar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+  }
+
+  .mobile-topbar-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* ─── BOTTOM NAV (móvil) ─── */
+  .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 64px;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    z-index: 50;
+    align-items: stretch;
+  }
+
+  .bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.52rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+    border-top: 2px solid transparent;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .bottom-nav-item .bnav-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+
+  .bottom-nav-item.active {
+    color: var(--gold);
+    border-top-color: var(--gold);
+  }
+
   /* ─── RESPONSIVE ─── */
   @media (max-width: 800px) {
-    .sidebar { width: 60px; }
-    .sidebar-logo span, .nav-menu li a span, .sidebar-footer { display: none; }
-    .nav-menu li a { justify-content: center; padding: 0.9rem; }
-    .nav-menu li a .icon { width: auto; }
-    .main { margin-left: 60px; padding: 1.5rem; }
+    .sidebar { display: none; }
+    .mobile-topbar { display: flex; }
+    .bottom-nav { display: flex; }
+
+    .main {
+      margin-left: 0;
+      padding: 1.2rem;
+      padding-top: calc(56px + 1.2rem);
+      padding-bottom: calc(64px + 1.2rem);
+    }
+
+    .page-title { font-size: 1.5rem; }
+
+    /* Tablas con scroll horizontal en móvil */
+    .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 500px; }
+
+    /* Charts row apilado */
+    #chartsRow { grid-template-columns: 1fr !important; }
+
+    .toast { bottom: calc(64px + 1rem); }
+
+    .page-header { flex-direction: column; }
+    .filter-bar { flex-direction: column; }
+    .filter-bar input, .filter-bar select { width: 100%; }
   }
 </style>
 </head>
@@ -597,13 +683,13 @@
   </div>
 </div>
 
-<!-- ─── SIDEBAR ─── -->
+<!-- ─── SIDEBAR (desktop) ─── -->
 <aside class="sidebar">
   <div class="sidebar-logo">
     <a href="index.html"><em>El Gran Pisco</em></a>
     <span>Admin Panel</span>
   </div>
-  <ul class="nav-menu">
+  <ul class="nav-menu" id="desktopNav">
     <li><a href="#" class="active" onclick="showPage('dashboard',this)"><span class="icon">📊</span><span>Dashboard</span></a></li>
     <li><a href="#" onclick="showPage('ventas',this)"><span class="icon">🛒</span><span>Pedidos</span></a></li>
     <li><a href="#" onclick="showPage('inventario',this)"><span class="icon">📦</span><span>Inventario</span></a></li>
@@ -615,6 +701,35 @@
     <button class="logout-btn" onclick="doLogout()">Salir</button>
   </div>
 </aside>
+
+<!-- ─── TOP BAR (móvil) ─── -->
+<div class="mobile-topbar">
+  <span class="mobile-topbar-logo">El Gran Pisco</span>
+</div>
+
+<!-- ─── BOTTOM NAV (móvil) ─── -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bottom-nav-item active" onclick="showPage('dashboard',null,'dashboard')" data-page="dashboard">
+    <span class="bnav-icon">📊</span>
+    <span>Dashboard</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('ventas',null,'ventas')" data-page="ventas">
+    <span class="bnav-icon">🛒</span>
+    <span>Pedidos</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('inventario',null,'inventario')" data-page="inventario">
+    <span class="bnav-icon">📦</span>
+    <span>Stock</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('clientes',null,'clientes')" data-page="clientes">
+    <span class="bnav-icon">👥</span>
+    <span>Clientes</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('config',null,'config')" data-page="config">
+    <span class="bnav-icon">⚙️</span>
+    <span>Productos</span>
+  </button>
+</nav>
 
 <!-- ─── MAIN ─── -->
 <main class="main">
@@ -645,7 +760,7 @@
     <div class="table-container">
       <div class="table-header">
         <span class="table-title">🕐 Últimos pedidos</span>
-        <a href="#" class="btn btn-outline btn-sm" onclick="showPage('ventas',null)">Ver todos</a>
+        <a href="#" class="btn btn-outline btn-sm" onclick="showPage('ventas',null,'ventas')">Ver todos</a>
       </div>
       <div id="recentOrders"></div>
     </div>
@@ -679,7 +794,7 @@
     <div class="page-header">
       <div>
         <h1 class="page-title">Inventario</h1>
-        <p class="page-sub">Stock actual por producto. Los cambios se reflejan en la tienda.</p>
+        <p class="page-sub">Stock actual por producto.</p>
       </div>
       <button class="btn btn-gold" onclick="openAjusteModal()">+ Ajustar stock</button>
     </div>
@@ -711,8 +826,6 @@
 </main>
 
 <!-- ─── MODALES ─── -->
-
-<!-- Ajuste de stock -->
 <div class="modal-overlay" id="ajusteModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('ajusteModal')">✕</button>
@@ -740,7 +853,6 @@
   </div>
 </div>
 
-<!-- Editar precio -->
 <div class="modal-overlay" id="precioModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('precioModal')">✕</button>
@@ -765,17 +877,16 @@
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── AUTH ───
-const CRED = { user: 'admin', pass: 'pisco2025' }; // Cambia aquí
+const CRED = { user: 'admin', pass: 'pisco2025' };
 
 function doLogin() {
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
   if (u === CRED.user && p === CRED.pass) {
+    sessionStorage.setItem('egp_auth', '1');
     document.getElementById('loginOverlay').style.display = 'none';
     initAdmin();
   } else {
@@ -784,10 +895,10 @@ function doLogin() {
 }
 
 function doLogout() {
+  sessionStorage.removeItem('egp_auth');
   document.getElementById('loginOverlay').style.display = 'flex';
 }
 
-// ─── DATA ───
 const PRODUCTOS_DEFAULT = [
   { id: 'quebranta-1l',    nombre: 'Quebranta',  volumen: '1 Litro',   precio: 45,  stock: 30, variedad: 'Puro' },
   { id: 'quebranta-galon', nombre: 'Quebranta',  volumen: 'Galonera',  precio: 150, stock: 15, variedad: 'Puro' },
@@ -799,16 +910,10 @@ function getProductos() {
   const s = localStorage.getItem('egp_productos');
   return s ? JSON.parse(s) : PRODUCTOS_DEFAULT;
 }
-
 function saveProductos(p) { localStorage.setItem('egp_productos', JSON.stringify(p)); }
-
-function getVentas() {
-  return JSON.parse(localStorage.getItem('egp_ventas') || '[]');
-}
-
+function getVentas() { return JSON.parse(localStorage.getItem('egp_ventas') || '[]'); }
 function saveVentas(v) { localStorage.setItem('egp_ventas', JSON.stringify(v)); }
 
-// ─── INIT ───
 function initAdmin() {
   if (!localStorage.getItem('egp_productos')) saveProductos(PRODUCTOS_DEFAULT);
   document.getElementById('dashDate').textContent = new Date().toLocaleDateString('es-PE', {
@@ -825,19 +930,28 @@ function renderAll() {
   renderConfig();
 }
 
-// ─── PÁGINAS ───
-function showPage(id, link) {
+// ─── showPage actualizado: sincroniza desktop + bottom nav ───
+function showPage(id, desktopLink, pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
+
+  // Desktop sidebar
   document.querySelectorAll('.nav-menu a').forEach(a => a.classList.remove('active'));
-  if (link) link.classList.add('active');
-  else {
-    const links = document.querySelectorAll('.nav-menu a');
-    links.forEach(a => { if (a.getAttribute('onclick') && a.getAttribute('onclick').includes(id)) a.classList.add('active'); });
+  if (desktopLink) {
+    desktopLink.classList.add('active');
+  } else {
+    document.querySelectorAll('.nav-menu a').forEach(a => {
+      if (a.getAttribute('onclick') && a.getAttribute('onclick').includes("'" + id + "'")) a.classList.add('active');
+    });
   }
+
+  // Bottom nav móvil
+  const key = pageId || id;
+  document.querySelectorAll('.bottom-nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.page === key);
+  });
 }
 
-// ─── DASHBOARD ───
 function renderDashboard() {
   const ventas = getVentas();
   const productos = getProductos();
@@ -869,14 +983,10 @@ function renderDashboard() {
     </div>
   `;
 
-  // Bar chart por producto
   const byProd = {};
-  ventas.forEach(v => {
-    byProd[v.productoId] = (byProd[v.productoId] || 0) + v.cantidad;
-  });
+  ventas.forEach(v => { byProd[v.productoId] = (byProd[v.productoId] || 0) + v.cantidad; });
   const maxVal = Math.max(1, ...Object.values(byProd));
-  const chart = document.getElementById('barChart');
-  chart.innerHTML = productos.map(p => {
+  document.getElementById('barChart').innerHTML = productos.map(p => {
     const val = byProd[p.id] || 0;
     const pct = Math.round((val / maxVal) * 100);
     return `<div class="bar-item">
@@ -886,7 +996,6 @@ function renderDashboard() {
     </div>`;
   }).join('');
 
-  // Stock bajo
   const bajo = productos.filter(p => p.stock <= 5);
   const lowList = document.getElementById('lowStockList');
   if (bajo.length === 0) {
@@ -900,7 +1009,6 @@ function renderDashboard() {
     `).join('');
   }
 
-  // Últimos pedidos
   const recent = [...ventas].sort((a, b) => b.id - a.id).slice(0, 6);
   const ro = document.getElementById('recentOrders');
   if (recent.length === 0) {
@@ -908,9 +1016,7 @@ function renderDashboard() {
   } else {
     ro.innerHTML = `
       <table>
-        <thead><tr>
-          <th>Fecha</th><th>Cliente</th><th>Producto</th><th>Total</th><th>Estado</th><th></th>
-        </tr></thead>
+        <thead><tr><th>Fecha</th><th>Cliente</th><th>Producto</th><th>Total</th><th>Estado</th><th></th></tr></thead>
         <tbody>
           ${recent.map(v => `<tr>
             <td>${fmtDate(v.fecha)}</td>
@@ -925,7 +1031,6 @@ function renderDashboard() {
   }
 }
 
-// ─── VENTAS ───
 function renderVentas() {
   const ventas = getVentas();
   const q = (document.getElementById('searchVenta')?.value || '').toLowerCase();
@@ -993,15 +1098,12 @@ function clearVentas() {
   showToast('Pedidos eliminados.');
 }
 
-// ─── INVENTARIO ───
 function renderInventario() {
   const productos = getProductos();
   const t = document.getElementById('inventarioTable');
   t.innerHTML = `
     <table>
-      <thead><tr>
-        <th>Producto</th><th>Variedad</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th>
-      </tr></thead>
+      <thead><tr><th>Producto</th><th>Variedad</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th></tr></thead>
       <tbody>
         ${productos.map(p => {
           const pct = Math.min(100, Math.round((p.stock / 50) * 100));
@@ -1018,9 +1120,7 @@ function renderInventario() {
               </div>
             </td>
             <td>${label}</td>
-            <td>
-              <button class="btn btn-outline btn-sm" onclick="openAjusteModalFor('${p.id}')">Ajustar</button>
-            </td>
+            <td><button class="btn btn-outline btn-sm" onclick="openAjusteModalFor('${p.id}')">Ajustar</button></td>
           </tr>`;
         }).join('')}
       </tbody>
@@ -1056,14 +1156,11 @@ function applyAjuste() {
   showToast(`Stock de "${p.nombre} ${p.volumen}" actualizado a ${p.stock}`);
 }
 
-// ─── CLIENTES ───
 function renderClientes() {
   const ventas = getVentas();
   const map = {};
   ventas.forEach(v => {
-    if (!map[v.telefono]) {
-      map[v.telefono] = { nombre: v.nombre, telefono: v.telefono, email: v.email || '—', pedidos: 0, total: 0 };
-    }
+    if (!map[v.telefono]) map[v.telefono] = { nombre: v.nombre, telefono: v.telefono, email: v.email || '—', pedidos: 0, total: 0 };
     map[v.telefono].pedidos++;
     map[v.telefono].total += v.total || 0;
   });
@@ -1078,8 +1175,7 @@ function renderClientes() {
       <thead><tr><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Pedidos</th><th>Total gastado</th></tr></thead>
       <tbody>
         ${clientes.map(c => `<tr>
-          <td>${c.nombre}</td>
-          <td>${c.telefono}</td>
+          <td>${c.nombre}</td><td>${c.telefono}</td>
           <td style="color:var(--muted)">${c.email}</td>
           <td style="text-align:center">${c.pedidos}</td>
           <td>S/ ${c.total.toFixed(0)}</td>
@@ -1088,7 +1184,6 @@ function renderClientes() {
     </table>`;
 }
 
-// ─── CONFIG PRODUCTOS ───
 function renderConfig() {
   const productos = getProductos();
   const t = document.getElementById('configTable');
@@ -1098,11 +1193,8 @@ function renderConfig() {
       <thead><tr><th>Producto</th><th>Volumen</th><th>Variedad</th><th>Precio</th><th>Stock</th><th>Acción</th></tr></thead>
       <tbody>
         ${productos.map(p => `<tr>
-          <td>${p.nombre}</td>
-          <td>${p.volumen}</td>
-          <td>${p.variedad}</td>
-          <td>S/ ${p.precio}</td>
-          <td>${p.stock} uds</td>
+          <td>${p.nombre}</td><td>${p.volumen}</td><td>${p.variedad}</td>
+          <td>S/ ${p.precio}</td><td>${p.stock} uds</td>
           <td><button class="btn btn-outline btn-sm" onclick="openPrecioModal('${p.id}')">✏️ Editar</button></td>
         </tr>`).join('')}
       </tbody>
@@ -1135,11 +1227,9 @@ function saveProd() {
   showToast('Producto actualizado');
 }
 
-// ─── MODALES ───
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// ─── HELPERS ───
 function fmtDate(iso) {
   if (!iso) return '—';
   return new Date(iso).toLocaleDateString('es-PE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -1157,31 +1247,9 @@ function showToast(msg, red = false) {
   setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-// ─── INIT ───
-// Auto-login si ya estaba logueado en esta sesión
 if (sessionStorage.getItem('egp_auth') === '1') {
   document.getElementById('loginOverlay').style.display = 'none';
   initAdmin();
-} else {
-  // no auto-login
-}
-
-// Guardar sesión
-function doLogin() {
-  const u = document.getElementById('loginUser').value.trim();
-  const p = document.getElementById('loginPass').value;
-  if (u === CRED.user && p === CRED.pass) {
-    sessionStorage.setItem('egp_auth', '1');
-    document.getElementById('loginOverlay').style.display = 'none';
-    initAdmin();
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-  }
-}
-
-function doLogout() {
-  sessionStorage.removeItem('egp_auth');
-  document.getElementById('loginOverlay').style.display = 'flex';
 }
 </script>
 </body>
